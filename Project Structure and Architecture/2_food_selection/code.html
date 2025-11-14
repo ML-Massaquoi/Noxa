@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Noxa - Food Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f46a25",
+              "background-light": "#f8f6f5",
+              "background-dark": "#221610",
+              "content-light": "#181311",
+              "content-dark": "#f8f6f5",
+              "subtle-light": "#8a6e60",
+              "subtle-dark": "#a39288",
+              "surface-light": "#ffffff",
+              "surface-dark": "#2a1c14",
+              "surface-subtle-light": "#f5f1f0",
+              "surface-subtle-dark": "#3a2c22"
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative w-full max-w-md mx-auto flex flex-col group/design-root overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">ramen_dining</span>
+<h1 class="text-content-light dark:text-content-dark text-xl font-bold leading-tight tracking-[-0.015em] flex-1">Noxa</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-content-light dark:text-content-dark">
+<span class="material-symbols-outlined text-2xl">search</span>
+</button>
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-content-light dark:text-content-dark">
+<span class="material-symbols-outlined text-2xl">shopping_cart</span>
+</button>
+</div>
+</header>
+<!-- Category Chips -->
+<div class="px-4 pb-4">
+<div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4" style="scrollbar-width: none; -ms-overflow-style: none;">
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-primary pl-5 pr-5">
+<p class="text-white text-sm font-bold leading-normal">All</p>
+</div>
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-surface-subtle-light dark:bg-surface-subtle-dark pl-5 pr-5">
+<p class="text-content-light dark:text-content-dark text-sm font-medium leading-normal">Pizza</p>
+</div>
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-surface-subtle-light dark:bg-surface-subtle-dark pl-5 pr-5">
+<p class="text-content-light dark:text-content-dark text-sm font-medium leading-normal">Salads</p>
+</div>
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-surface-subtle-light dark:bg-surface-subtle-dark pl-5 pr-5">
+<p class="text-content-light dark:text-content-dark text-sm font-medium leading-normal">Desserts</p>
+</div>
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-surface-subtle-light dark:bg-surface-subtle-dark pl-5 pr-5">
+<p class="text-content-light dark:text-content-dark text-sm font-medium leading-normal">Drinks</p>
+</div>
+<div class="flex h-10 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-surface-subtle-light dark:bg-surface-subtle-dark pl-5 pr-5">
+<p class="text-content-light dark:text-content-dark text-sm font-medium leading-normal">Appetizers</p>
+</div>
+</div>
+</div>
+<!-- Food Cards Grid -->
+<main class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 pt-0">
+<!-- Card 1 -->
+<div class="flex flex-col rounded-xl bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="A delicious looking Margherita pizza with fresh basil on a wooden board." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfEzXFCGyumuiMJCUlXH_AW44xLvvHIXO4iiMk7gSdMA4l-gB6wqtvBdDAAuUatpnaFtpMVcU-FkqBxnliME1HC6_w326tcAlxnWWfyXQdGp4wkwVvjlFtM1UdPMxYFzaCOGO0XNBOQ35C-uvWpTLrCvjRcpaiMceGDBMq_b3nJo6_xX2p7-td9725iHytyksRZQQPWCnpc5Gqc2vUrY1ltvlm30Uq_1jGyL7kJu-8da4hCeQLIQEVvgEC5xSWwEVr1P_1yaehwNY");'></div>
+<div class="flex flex-col gap-2 p-4 flex-grow">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-tight tracking-[-0.015em]">Margherita Pizza</p>
+<p class="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal flex-grow">Classic pizza with fresh mozzarella, tomatoes, and basil.</p>
+<div class="flex items-center justify-between mt-2">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-normal">$12.99</p>
+<button class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex flex-col rounded-xl bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Fresh Caesar salad in a white bowl, topped with croutons and parmesan cheese." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmHrOY_sl9ZrGIwvuig6im7oE6pR1Nj5c8bj6sdseV58ChtwzhJYuaZG9RJ85uwM2R3oZ6CzfYPlb3UxdKHSPhgCvd4sm36UpPbJ69mG1opFBNGuZPJQusMbebYIcPME2tqLYCGbXZtScY13lPM-gYSeLACSm66wUV_SIjFKdby9HnKXm_oHWOLi4mSAB85iQv41Ed-1a24jvO7DH4TRo63eyBj4ApgCOynx03iVPjyV000576zQCupjIEbsjLhp-Wsy3OpuIs2ck");'></div>
+<div class="flex flex-col gap-2 p-4 flex-grow">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-tight tracking-[-0.015em]">Caesar Salad</p>
+<p class="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal flex-grow">Crisp romaine lettuce with parmesan, croutons, and Caesar dressing.</p>
+<div class="flex items-center justify-between mt-2">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-normal">$9.50</p>
+<button class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex flex-col rounded-xl bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="A warm chocolate lava cake on a plate with powdered sugar dusted on top." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtWwkhLrSrm9ELBEfhFePEntVdKzLvRtN8O4vXee8-WVDB5ZcCCLxbglObnqXnfWi0oMpw6YTkCkV4TAydxyNzzvMm0Mmc_S63-jlhQzPYOylS-ciALoeIVA7rQH0QWWVlalrME41rckCwuYPQWiqe1rAI0IEHFgXb9oetsbuY1fHTsGARBNKG_vjQkLxK_C2aipHA4ewovSS6l987ib0zRuX--34QsKzce6l0F7pgUb2q7QjUga-WTItSVvUJEOnHbkIyjwSwBfs");'></div>
+<div class="flex flex-col gap-2 p-4 flex-grow">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-tight tracking-[-0.015em]">Chocolate Lava Cake</p>
+<p class="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal flex-grow">Warm chocolate cake with a gooey molten center.</p>
+<div class="flex items-center justify-between mt-2">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-normal">$7.00</p>
+<button class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex flex-col rounded-xl bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="A juicy beef burger with cheese, lettuce, and tomato in a sesame seed bun." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAx9MZ9G5bamIBB9JEqm3Ekq4RQXcJqcq3KdWd5CUqA0V4xTPXp7uh9oFxQLhqUeamoRmuLAiEvyMd7_AlV_RjEfVKKIl2ngswKDca2Ow3SWxHemZfIJmEz4fuNFa77_1ksIMTVSz1GVBUsuw0j7bpfqkoziuabUGdtAPJDbQakiuYL0hXpbCCbpTw4-5p-xEtFz4S7raFuTWgxmATHnPEbg7OXqdy_GsxdavkWBu-q1mgxzIL-R2g96hL6zAXCwRmpgiWGda6AgTo");'></div>
+<div class="flex flex-col gap-2 p-4 flex-grow">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-tight tracking-[-0.015em]">Classic Burger</p>
+<p class="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal flex-grow">A savory beef patty topped with cheddar cheese, fresh lettuce, and tomato.</p>
+<div class="flex items-center justify-between mt-2">
+<p class="text-content-light dark:text-content-dark text-lg font-bold leading-normal">$11.25</p>
+<button class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6 z-20">
+<button class="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-white shadow-lg">
+<span class="material-symbols-outlined text-3xl">shopping_cart</span>
+</button>
+</div>
+</div>
+</body></html>

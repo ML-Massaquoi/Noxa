@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Noxa Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1A2B48",
+              "accent": "#00C49A",
+              "background-light": "#F5F7FA",
+              "background-dark": "#111827",
+              "pending": "#FFC107",
+              "approved": "#4CAF50",
+              "rejected": "#F44336",
+              "text-light-primary": "#111827",
+              "text-light-secondary": "#6B7280",
+              "text-dark-primary": "#F5F7FA",
+              "text-dark-secondary": "#9CA3AF",
+              "border-light": "#E5E7EB",
+              "border-dark": "#374151"
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark text-text-light-primary dark:text-dark-primary group/design-root overflow-x-hidden">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-10 flex items-center justify-between bg-background-light dark:bg-background-dark px-4 py-3">
+<div class="flex size-12 shrink-0 items-center justify-start">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9" data-alt="Admin profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6arcoV4bE4G-y7znQ8rT_p2HwShrV2e1r6coFnKNKDgprefAulAJsbGZQyuWUnxTE6PKk_dMdgpbwrk51gG---e41jEKq8f9A9jhktB0JeouzQs5nknuXyH7VIBC50Upec-r9i7DSXN51YvOi_LPRRZmb378_cbEZnBN6Jx64tuX82R5oNHe7T9ivaO2PgdaA0EqXdy8n3mSKgZT-upYX3_2coFGz2fTCfcFM1rAdwpiF4gb7L8Dhd2ezE38jt646zMyEhyRabCo");'></div>
+</div>
+<h1 class="text-lg font-bold">Dashboard</h1>
+<div class="flex w-12 items-center justify-end">
+<button class="flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-transparent text-text-light-primary dark:text-dark-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pb-2">
+<label class="flex flex-col min-w-40 h-14 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-text-light-secondary dark:text-dark-secondary flex border-none bg-white dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light-primary dark:text-dark-primary focus:outline-0 focus:ring-0 border-none bg-white dark:bg-gray-800 focus:border-none h-full placeholder:text-text-light-secondary dark:placeholder:text-dark-secondary px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search by user, food, or date..." value=""/>
+</div>
+</label>
+</div>
+<!-- Summary Cards -->
+<div class="flex flex-wrap gap-3 p-4 pt-2">
+<div class="flex min-w-[158px] flex-1 flex-col gap-1.5 rounded-lg p-4 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark">
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-medium">Submissions Today</p>
+<p class="text-2xl font-bold">128</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-1.5 rounded-lg p-4 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark">
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-medium">Pending Review</p>
+<p class="text-2xl font-bold">16</p>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 p-4 pt-0 overflow-x-auto whitespace-nowrap">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary px-4">
+<p class="text-white text-sm font-medium">All</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4">
+<p class="text-sm font-medium">Pending</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4">
+<p class="text-sm font-medium">Approved</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4">
+<p class="text-sm font-medium">Rejected</p>
+</button>
+</div>
+<!-- Submission List Section -->
+<div class="flex flex-col gap-3 px-4 pb-24">
+<h2 class="text-base font-semibold text-text-light-secondary dark:text-dark-secondary">Recent Submissions</h2>
+<!-- List Item 1: Approved -->
+<div class="flex flex-col gap-4 rounded-lg bg-white dark:bg-gray-800 p-4 border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12" data-alt="User avatar for Sarah Lee" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJrFtO5tKMnXUWxZZYQMgb6II-tghixGFMzqr4mKqMvrZScn8wkvGu3yh1ic6OurkhHL-eLhu7KHi8dU2LLN1FGSCJbftBZiXfH2gfM39a2I1XKbwIlVA1mitVyjwlcMwQoMKruhtJJI_3XFQObs2pLYPxWK3LJt-FShD0sbtTBpMhPFkobF2nmkzAvOFlX36rs2KVNVePCKpJINIlVkIL5hNAylYs4AfInYt8FQEGtU2aO0mhuIKezY6EbrbFdC2EpZ9x0UzCAgA");'></div>
+<div class="flex flex-col justify-center flex-1">
+<p class="text-base font-semibold leading-normal">Margherita Pizza</p>
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-normal leading-normal">Sarah Lee</p>
+</div>
+<div class="flex items-center gap-1.5 rounded-full bg-approved/10 px-2 py-1">
+<div class="size-2 rounded-full bg-approved"></div>
+<p class="text-xs font-medium text-approved">Approved</p>
+</div>
+</div>
+<div class="w-full h-px bg-border-light dark:bg-border-dark"></div>
+<div class="flex justify-between items-center text-sm text-text-light-secondary dark:text-dark-secondary">
+<span>Oct 26, 9:45 AM</span>
+<button class="flex items-center justify-center text-text-light-primary dark:text-dark-primary font-medium">View Details</button>
+</div>
+</div>
+<!-- List Item 2: Pending -->
+<div class="flex flex-col gap-4 rounded-lg bg-white dark:bg-gray-800 p-4 border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12" data-alt="User avatar for John Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjyjqi0koIznhJn1k3lIQTTIUlA5R5-VbBtdUelnXZ1dnH0Q7XBakkfP4irgLqlThBTYbK_F0NENIKkRIw5MNBapIFa9kkrVczrh_OYqvB_a4gKl2u_Jy_3NESoNBpm9BU8Pbm5QOfHDpLnEom0MWgU5N3l-byDer6Jh40bZ9gryeLdc8XYfzTxRE85JsNyUxDoEJe9RnF5gvYn7T_chTfwJdmlGTDYFbeYmEkARgJQuztGaaBFV5udYRTp75Liq2uHFth0ZgqucY");'></div>
+<div class="flex flex-col justify-center flex-1">
+<p class="text-base font-semibold leading-normal">Chicken Caesar Salad</p>
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-normal leading-normal">John Doe</p>
+</div>
+<div class="flex items-center gap-1.5 rounded-full bg-pending/10 px-2 py-1">
+<div class="size-2 rounded-full bg-pending"></div>
+<p class="text-xs font-medium text-pending">Pending</p>
+</div>
+</div>
+<div class="w-full h-px bg-border-light dark:bg-border-dark"></div>
+<div class="flex justify-end items-center gap-3 text-sm">
+<button class="flex items-center justify-center rounded-md px-4 py-2 border border-border-light dark:border-border-dark text-text-light-primary dark:text-dark-primary font-semibold">Reject</button>
+<button class="flex items-center justify-center rounded-md px-4 py-2 bg-accent text-white font-semibold">Approve</button>
+</div>
+</div>
+<!-- List Item 3: Rejected -->
+<div class="flex flex-col gap-4 rounded-lg bg-white dark:bg-gray-800 p-4 border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12" data-alt="User avatar for Michael Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAW7_KUNBgi3aB5iRPhjuw5LVqqd-8rqcMJWMpW2nSgelDWwkJiCz4PZotblDi1hInLMD4Xt6PMaOx7IemrQ4PMhsWcNr21_roNHDWYxVb6i1HJvf62mnIotncrsEMbhYNOMAdjNhtqxm_GShdzTT6tJX8TXfYOxjXmwY92VcoIq-aXKHdTHc9m7evdw-4j9ouddLKtpa79i351cMvgzaT3xYg5v7vpzwNPPUUncbirGWDxdrNKeh4P52TXq6yrQiEHo-4lFZSugNY");'></div>
+<div class="flex flex-col justify-center flex-1">
+<p class="text-base font-semibold leading-normal">Spaghetti Carbonara</p>
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-normal leading-normal">Michael Chen</p>
+</div>
+<div class="flex items-center gap-1.5 rounded-full bg-rejected/10 px-2 py-1">
+<div class="size-2 rounded-full bg-rejected"></div>
+<p class="text-xs font-medium text-rejected">Rejected</p>
+</div>
+</div>
+<div class="w-full h-px bg-border-light dark:bg-border-dark"></div>
+<div class="flex justify-between items-center text-sm text-text-light-secondary dark:text-dark-secondary">
+<span>Oct 25, 4:12 PM</span>
+<button class="flex items-center justify-center text-text-light-primary dark:text-dark-primary font-medium">View Details</button>
+</div>
+</div>
+</div>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6">
+<button class="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+</div>
+</body></html>

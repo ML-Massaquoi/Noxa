@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Welcome to Noxa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f46a25",
+              "background-light": "#FFFFFF",
+              "background-dark": "#221610",
+              "text-light": "#181311",
+              "text-dark": "#f8f6f5",
+              "text-secondary-light": "#8a6e60",
+              "text-secondary-dark": "#a19188"
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<header class="p-4">
+<div class="flex items-center justify-center pt-2">
+<svg class="text-text-light dark:text-text-dark" fill="none" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"></path>
+<path d="M12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6Z" fill="#f46a25"></path>
+</svg>
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark ml-2">Noxa</h2>
+</div>
+</header>
+<main class="flex-grow flex flex-col">
+<div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden min-h-[320px] md:min-h-[400px] flex-shrink-0" data-alt="Vibrant artistic shot of colorful fresh vegetables arranged neatly on a clean, light surface." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZ1d9p3Y2DzZHh0ZAertqUnX6fvIhyp9hLsR483rZ5tkdFycE2_WGrzdya4Hr01RGYY-OxO_xdEdAQma7URsBSkLXlN2JKBcyA6r3HAcKdcMqapbk1_tEBcFW_Xss5nxumjbendFaU97n4OWfWoPSaf1EH20Fj9G2hNgi2ONWGsTUX6KYjd758zJaq6ZO4CDH0UW3dHgFNCLE41IqWf33Tq1SoiMU-qtrEOnslibq03SIoBpTfCsJ6_2jnSjmtCZb4vUmN6GDsNjw");'></div>
+<div class="flex flex-col items-center justify-center p-4 flex-grow">
+<h1 class="text-text-light dark:text-text-dark tracking-tight text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-6">Smart Food Selection, Simplified.</h1>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal pb-3 pt-1 px-4 text-center max-w-md">Noxa helps you track, select, and manage your food choices effortlessly.</p>
+</div>
+</main>
+<footer class="p-4 pt-0">
+<div class="flex px-4 py-3">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Get Started</span>
+</button>
+</div>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">Already have an account? <a class="font-bold text-primary" href="#">Log In</a></p>
+</footer>
+</div>
+</body></html>
