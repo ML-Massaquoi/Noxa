@@ -30,6 +30,9 @@ public class OrderService {
         double total = 0;
         for (var itemReq : req.getItems()) {
             MenuItem menuItem = menuService.getById(itemReq.getMenuItemId());
+            if (menuItem == null) {
+                throw new RuntimeException("Menu item not found with id: " + itemReq.getMenuItemId());
+            }
             OrderItem orderItem = new OrderItem();
             orderItem.setMenuItem(menuItem);
             orderItem.setQuantity(itemReq.getQuantity());

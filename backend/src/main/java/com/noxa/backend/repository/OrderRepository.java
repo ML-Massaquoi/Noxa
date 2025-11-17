@@ -10,6 +10,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserId(Long userId);
     List<Order> findByStatus(OrderStatus status);
 
-    @Query("SELECT o FROM Order o WHERE o.status = 'PENDING' ORDER BY o.createdAt DESC")
+    @Query("SELECT o FROM Order o WHERE o.status = com.noxa.backend.entity.OrderStatus.PENDING ORDER BY o.createdAt DESC")
     List<Order> findPendingForAdmin();
 }

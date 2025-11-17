@@ -21,7 +21,7 @@ public class Order {
 
     private Double total;
 
-    @Enumermerzen(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING;
 
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -33,7 +33,7 @@ public class Order {
     private String specialInstructions;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items;
+    private List<OrderItem> items = new java.util.ArrayList<>();
 
     // Getters and Setters
     public Long getId() { return id; }
