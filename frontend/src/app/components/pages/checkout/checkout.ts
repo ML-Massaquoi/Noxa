@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../../services/cart.service';
 import { ApiService } from '../../../services/api.service';
+import { Order } from '../../../models/order.model'; // Import the Order type
+import { lastValueFrom } from 'rxjs'; // Import lastValueFrom
 
 @Component({
   selector: 'app-checkout',
@@ -12,6 +14,7 @@ import { ApiService } from '../../../services/api.service';
   templateUrl: './checkout.html'
 })
 export class CheckoutComponent implements OnInit {
+// ... (rest of the component properties and ngOnInit are the same)
   private fb = inject(FormBuilder);
   public cartService = inject(CartService);
   private apiService = inject(ApiService);
@@ -26,6 +29,7 @@ export class CheckoutComponent implements OnInit {
 
   private initializeForm() {
     this.checkoutForm = this.fb.group({
+// ... (form controls are the same)
       fullName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
@@ -42,6 +46,7 @@ export class CheckoutComponent implements OnInit {
       this.isSubmitting.set(true);
       try {
         const orderData = {
+// ... (orderData mapping is the same)
           customerInfo: {
             fullName: this.checkoutForm.value.fullName,
             email: this.checkoutForm.value.email,
@@ -60,7 +65,9 @@ export class CheckoutComponent implements OnInit {
           }))
         };
         
-        const order = await this.apiService.placeOrder(orderData).toPromise();
+        // FIX: Add type assertion or use lastValueFrom
+        const order = await lastValueFrom(this.apiService.placeOrder(orderData));
+
         this.cartService.clearCart();
         
         this.router.navigate(['/confirmation'], { 
@@ -76,7 +83,7 @@ export class CheckoutComponent implements OnInit {
       this.markFormGroupTouched();
     }
   }
-
+// ... (markFormGroupTouched method is the same)
   private markFormGroupTouched() {
     Object.keys(this.checkoutForm.controls).forEach(key => {
       this.checkoutForm.get(key)?.markAsTouched();

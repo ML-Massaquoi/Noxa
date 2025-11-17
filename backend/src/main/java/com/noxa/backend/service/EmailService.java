@@ -1,3 +1,5 @@
+package com.noxa.backend.service;
+
 import com.noxa.backend.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

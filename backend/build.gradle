@@ -8,9 +8,14 @@ group = 'com.noxa'
 version = '1.0.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    // Change these back to 21 (a current LTS version) or 23
+    sourceCompatibility = 21
+    targetCompatibility = 21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
+
 
 repositories {
     mavenCentral()
@@ -23,6 +28,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    testImplementation 'com.h2database:h2'
 
     runtimeOnly 'org.postgresql:postgresql'
 
