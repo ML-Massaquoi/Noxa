@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+  <div class="max-w-md w-full space-y-8 animate-slide-up">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Smart Food</h1>
+      <p class="text-2xl font-light text-gray-600 mb-2">Selection, Simplified.</p>
+      <p class="text-gray-500 leading-relaxed">
+        Noxa helps you track, select, and manage your food choices effortlessly.
+      </p>
+    </div>
+
+    <div class="border-t border-gray-200 my-8"></div>
+
+    <div class="text-center">
+      <p class="text-gray-600 mb-6">
+        Already have an account? 
+        <a [routerLink]="['/admin-login']" class="text-green-600 hover:text-green-700 font-semibold ml-1">
+          Login
+        </a>
+      </p>
+      
+      <button 
+        [routerLink]="['/menu']" 
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105">
+        Start Ordering
+      </button>
+    </div>
+  </div>
+</div>

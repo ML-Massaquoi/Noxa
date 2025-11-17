@@ -1,0 +1,33 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Today's Menu</h1>
+      <div class="flex justify-between items-center bg-white rounded-lg shadow-sm p-4 mb-6">
+        <span class="text-gray-600">{{ cartService.itemCount() }} items in cart - ${{ cartService.totalPrice() }}</span>
+        <button 
+          [routerLink]="['/checkout']"
+          [disabled]="cartService.itemCount() === 0"
+          class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">
+          Checkout
+        </button>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+      </div>
+    }
+
+    @if (!isLoading()) {
+      <div class="grid gap-6 md:grid-cols-2">
+        @for (item of foodItems(); track item.id) {
+          <app-food-card 
+            [foodItem]="item" 
+            (addToCart)="addToCart($event)">
+          </app-food-card>
+        }
+      </div>
+    }
+  </div>
+</div>

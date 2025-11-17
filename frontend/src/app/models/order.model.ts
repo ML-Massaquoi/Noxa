@@ -1,34 +1,46 @@
-export interface OrderItemRequest {
-  menuItemId: number;
-  quantity: number;
+import { FoodItem } from './food-item.model';
+
+export interface Order {
+  id: string;
+  items: OrderItem[];
+  total: number;
+  customerInfo: CustomerInfo;
+  deliveryInfo: DeliveryInfo;
+  status: OrderStatus;
+  createdAt: Date;
+  updatedAt?: Date;
+  orderNumber?: string;
 }
 
-export interface OrderCreateRequest {
-  street: string;
+export interface OrderItem {
+  foodItem: FoodItem;
+  quantity: number;
+  specialInstructions?: string;
+}
+
+export interface CustomerInfo {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+}
+
+export interface DeliveryInfo {
+  streetAddress: string;
   aptSuite?: string;
   city: string;
-  zip: string;
+  zipCode: string;
   specialInstructions?: string;
-  items: OrderItemRequest[];
+  deliveryTime?: Date;
 }
 
-export enum OrderStatus {
-  PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED'
-}
+export type OrderStatus = 'pending' | 'approved' | 'rejected' | 'completed' | 'preparing' | 'ready' | 'delivered';
 
-export interface OrderItemResponse {
-  name: string;
-  quantity: number;
-  unitPrice: number;
-}
-
-export interface OrderResponse {
-  id: number;
-  orderNumber: string;
-  total: number;
-  status: OrderStatus;
-  createdAt: string;
-  items: OrderItemResponse[];
+export interface OrderSubmission {
+  customerInfo: CustomerInfo;
+  deliveryInfo: DeliveryInfo;
+  items: Array<{
+    foodItemId: string;
+    quantity: number;
+    specialInstructions?: string;
+  }>;
 }

@@ -1,62 +1,46 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { ApiService } from './api.service';
-import { LoginRequest, RegisterRequest, JwtResponse, User } from '../models/auth.model';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private isAuthenticated = signal(false);
+  private isAdminUser = signal(false);
 
-  constructor(private api: ApiService) {
-    this.loadUserFromToken();
+  login(email: string, password: string): boolean {
+    if (email === 'admin@noxa.com' && password === 'admin123') {
+      this.isAuthenticated.set(true);
+      this.isAdminUser.set(true);
+      return true;
+    }
+    
+    if (email && password) {
+      this.isAuthenticated.set(true);
+      this.isAdminUser.set(false);
+      return true;
+    }
+    
+    return false;
   }
 
-  register(data: RegisterRequest): Observable<User> {
-    return this.api.post<User>('/auth/register', data);
+  adminLogin(email: string, password: string): boolean {
+    return this.login(email, password);
   }
 
-  login(data: LoginRequest): Observable<JwtResponse> {
-    return this.api.post<JwtResponse>('/auth/login', data).pipe(
-      tap(response => {
-        localStorage.setItem('token', response.token);
-        this.loadUserFromToken();
-      })
-    );
+  logout() {
+    this.isAuthenticated.set(false);
+    this.isAdminUser.set(false);
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-    this.currentUserSubject.next(null);
-  }
-
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+  isAuthenticatedUser(): boolean {
+    return this.isAuthenticated();
   }
 
   isAdmin(): boolean {
-    const user = this.currentUserSubject.value;
-    return user?.role === 'ADMIN';
+    return this.isAdminUser();
   }
 
-  private loadUserFromToken(): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        this.currentUserSubject.next({
-          id: payload.userId,
-          email: payload.sub,
-          fullName: payload.fullName || '',
-          phone: payload.phone || '',
-          role: payload.role
-        });
-      } catch (error) {
-        console.error('Error parsing token:', error);
-        this.logout();
-      }
-    }
+  getToken(): string | null {
+    return this.isAuthenticated() ? 'mock-jwt-token' : null;
   }
 }

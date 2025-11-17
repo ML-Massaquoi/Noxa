@@ -1,78 +1,77 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { CartItem } from '../models/menu-item.model';
+import { Injectable, signal, computed } from '@angular/core';
+import { FoodItem } from '../models/food-item.model';
+
+export interface CartItem {
+  foodItem: FoodItem;
+  quantity: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems = new BehaviorSubject<CartItem[]>([]);
-  public cartItems$ = this.cartItems.asObservable();
+  private items = signal<CartItem[]>([]);
+  
+  itemCount = computed(() => 
+    this.items().reduce((sum, item) => sum + item.quantity, 0)
+  );
+  
+  totalPrice = computed(() =>
+    this.items().reduce((sum, item) => sum + (item.foodItem.price * item.quantity), 0)
+  );
 
-  constructor() {
-    this.loadCart();
-  }
+  addItem(item: FoodItem) {
+    const currentItems = this.items();
+    const existingItemIndex = currentItems.findIndex(
+      cartItem => cartItem.foodItem.id === item.id
+    );
 
-  addToCart(item: CartItem): void {
-    const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find(i => i.id === item.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-      this.cartItems.next([...currentItems]);
+    if (existingItemIndex > -1) {
+      const updatedItems = [...currentItems];
+      updatedItems[existingItemIndex] = {
+        ...updatedItems[existingItemIndex],
+        quantity: updatedItems[existingItemIndex].quantity + 1
+      };
+      this.items.set(updatedItems);
     } else {
-      this.cartItems.next([...currentItems, { ...item, quantity: 1 }]);
-    }
-
-    this.saveCart();
-  }
-
-  removeFromCart(itemId: number): void {
-    const currentItems = this.cartItems.value.filter(i => i.id !== itemId);
-    this.cartItems.next(currentItems);
-    this.saveCart();
-  }
-
-  updateQuantity(itemId: number, quantity: number): void {
-    const currentItems = this.cartItems.value;
-    const item = currentItems.find(i => i.id === itemId);
-    
-    if (item) {
-      if (quantity <= 0) {
-        this.removeFromCart(itemId);
-      } else {
-        item.quantity = quantity;
-        this.cartItems.next([...currentItems]);
-        this.saveCart();
-      }
+      this.items.update(current => [...current, { foodItem: item, quantity: 1 }]);
     }
   }
 
-  getTotal(): number {
-    return this.cartItems.value.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  removeItem(itemId: string) {
+    this.items.update(current => 
+      current.filter(cartItem => cartItem.foodItem.id !== itemId)
+    );
+  }
+
+  updateQuantity(itemId: string, quantity: number) {
+    if (quantity <= 0) {
+      this.removeItem(itemId);
+      return;
+    }
+
+    this.items.update(current => 
+      current.map(cartItem => 
+        cartItem.foodItem.id === itemId 
+          ? { ...cartItem, quantity } 
+          : cartItem
+      )
+    );
+  }
+
+  clearCart() {
+    this.items.set([]);
+  }
+
+  getItems(): CartItem[] {
+    return this.items();
   }
 
   getItemCount(): number {
-    return this.cartItems.value.reduce((count, item) => count + item.quantity, 0);
+    return this.itemCount();
   }
 
-  clearCart(): void {
-    this.cartItems.next([]);
-    this.saveCart();
-  }
-
-  private saveCart(): void {
-    localStorage.setItem('cart', JSON.stringify(this.cartItems.value));
-  }
-
-  private loadCart(): void {
-    const saved = localStorage.getItem('cart');
-    if (saved) {
-      try {
-        this.cartItems.next(JSON.parse(saved));
-      } catch (error) {
-        console.error('Error loading cart:', error);
-      }
-    }
+  getTotalPrice(): number {
+    return this.totalPrice();
   }
 }
