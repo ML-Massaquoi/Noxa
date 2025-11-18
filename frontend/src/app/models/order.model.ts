@@ -1,46 +1,23 @@
-import { FoodItem } from './food-item.model';
+export interface OrderItem {
+  menuItemId: number;
+  quantity: number;
+}
 
 export interface Order {
-  id: string;
-  items: OrderItem[];
-  total: number;
-  customerInfo: CustomerInfo;
-  deliveryInfo: DeliveryInfo;
+  id: number;
+  customerName: string;
+  address: string;
+  phone: string;
+  totalPrice: number;
   status: OrderStatus;
-  createdAt: Date;
-  updatedAt?: Date;
-  orderNumber?: string;
+  items: OrderItem[];
 }
 
-export interface OrderItem {
-  foodItem: FoodItem;
-  quantity: number;
-  specialInstructions?: string;
-}
+export type OrderStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'DELIVERED' | 'PREPARING' | 'READY';
 
-export interface CustomerInfo {
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-}
-
-export interface DeliveryInfo {
-  streetAddress: string;
-  aptSuite?: string;
-  city: string;
-  zipCode: string;
-  specialInstructions?: string;
-  deliveryTime?: Date;
-}
-
-export type OrderStatus = 'pending' | 'approved' | 'rejected' | 'completed' | 'preparing' | 'ready' | 'delivered';
-
-export interface OrderSubmission {
-  customerInfo: CustomerInfo;
-  deliveryInfo: DeliveryInfo;
-  items: Array<{
-    foodItemId: string;
-    quantity: number;
-    specialInstructions?: string;
-  }>;
+export interface OrderRequest {
+  customerName: string;
+  address: string;
+  phone: string;
+  items: OrderItem[];
 }

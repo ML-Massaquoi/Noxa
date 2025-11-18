@@ -10,7 +10,7 @@ import { FoodCardComponent } from '../../../components/food-card/food-card';
   selector: 'app-menu',
   standalone: true,
   imports: [CommonModule, RouterLink, FoodCardComponent],
-  templateUrl: './menu.html'
+  templateUrl: './menu.html' // uses the modern HTML above
 })
 export class MenuComponent implements OnInit {
   private foodService = inject(FoodService);
@@ -26,7 +26,9 @@ export class MenuComponent implements OnInit {
   private async loadFoodItems() {
     try {
       this.isLoading.set(true);
-      const items = await this.foodService.getFoodItems();
+      // These items were hardcoded in your image/original code description
+      // but in this version, they are loaded via your service:
+      const items = await this.foodService.getFoodItems(); 
       this.foodItems.set(items);
     } catch (error) {
       console.error('Error loading food items:', error);

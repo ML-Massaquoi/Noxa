@@ -3,7 +3,7 @@
     <div class="text-center mb-12">
       <h1 class="text-4xl font-bold text-gray-900 mb-4">Today's Menu</h1>
       <div class="flex justify-between items-center bg-white rounded-lg shadow-sm p-4 mb-6">
-        <span class="text-gray-600">{{ cartService.itemCount() }} items in cart - ${{ cartService.totalPrice() }}</span>
+        <span class="text-gray-600">{{ cartService.itemCount() }} items in cart - NLE{{ cartService.totalPrice() }}</span>
         <button 
           [routerLink]="['/checkout']"
           [disabled]="cartService.itemCount() === 0"

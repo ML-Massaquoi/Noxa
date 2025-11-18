@@ -1,43 +1,43 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../../services/cart.service';
 import { ApiService } from '../../../services/api.service';
-import { Order } from '../../../models/order.model'; // Import the Order type
-import { lastValueFrom } from 'rxjs'; // Import lastValueFrom
+// Import the necessary models
+import { OrderRequest, Order, OrderItem } from '../../../models/order.model'; 
+import { lastValueFrom } from 'rxjs';
+import { TempDataService } from '../../../services/temp-data.service';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DecimalPipe],
   templateUrl: './checkout.html'
 })
 export class CheckoutComponent implements OnInit {
-// ... (rest of the component properties and ngOnInit are the same)
   private fb = inject(FormBuilder);
   public cartService = inject(CartService);
   private apiService = inject(ApiService);
   private router = inject(Router);
-
+  private tempDataService = inject(TempDataService);
+  
   checkoutForm!: FormGroup;
   isSubmitting = signal(false);
 
   ngOnInit() {
     this.initializeForm();
+    // Optional: Redirect if the cart is empty
+    if (this.cartService.itemCount() === 0) {
+      this.router.navigate(['/cart']);
+    }
   }
 
   private initializeForm() {
     this.checkoutForm = this.fb.group({
-// ... (form controls are the same)
-      fullName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
-      streetAddress: ['', Validators.required],
-      aptSuite: [''],
-      city: ['', Validators.required],
-      zipCode: ['', [Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]],
-      specialInstructions: ['']
+      customerName: ['', [Validators.required, Validators.minLength(2)]],
+      address: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
     });
   }
 
@@ -45,37 +45,37 @@ export class CheckoutComponent implements OnInit {
     if (this.checkoutForm.valid) {
       this.isSubmitting.set(true);
       try {
-        const orderData = {
-// ... (orderData mapping is the same)
-          customerInfo: {
-            fullName: this.checkoutForm.value.fullName,
-            email: this.checkoutForm.value.email,
-            phoneNumber: this.checkoutForm.value.phoneNumber
-          },
-          deliveryInfo: {
-            streetAddress: this.checkoutForm.value.streetAddress,
-            aptSuite: this.checkoutForm.value.aptSuite,
-            city: this.checkoutForm.value.city,
-            zipCode: this.checkoutForm.value.zipCode,
-            specialInstructions: this.checkoutForm.value.specialInstructions
-          },
-          items: this.cartService.getItems().map(item => ({
-            foodItemId: item.foodItem.id,
-            quantity: item.quantity
-          }))
+        // Map the cart items to the OrderItem structure defined in your model
+        const orderItems: OrderItem[] = this.cartService.getItems().map(item => ({
+          menuItemId: item.foodItem.id, // This MUST be a number (assuming your services are fixed now)
+          quantity: item.quantity
+        }));
+
+        const orderRequest: OrderRequest = {
+          customerName: this.checkoutForm.value.customerName,
+          address: this.checkoutForm.value.address,
+          phone: this.checkoutForm.value.phone,
+          items: orderItems,
         };
-        
-        // FIX: Add type assertion or use lastValueFrom
-        const order = await lastValueFrom(this.apiService.placeOrder(orderData));
+        console.log('Sending order data:', orderRequest);
+
+        // Assuming apiService.placeOrder returns an observable of type Order (the full response model)
+        const order = await lastValueFrom(this.apiService.placeOrder(orderRequest));
 
         this.cartService.clearCart();
-        
-        this.router.navigate(['/confirmation'], { 
-          state: { orderId: order?.id, orderNumber: order?.orderNumber } 
-        });
+
+        const confirmationDetails = {
+          orderId: order?.id,
+          totalPrice: order?.totalPrice,
+        };
+
+        this.tempDataService.setLastOrder(confirmationDetails);
+
+        this.router.navigate(['/confirmation']);
+
       } catch (error) {
         console.error('Order failed:', error);
-        alert('Failed to place order. Please try again.');
+        alert('Failed to place order. Please check your details and try again.');
       } finally {
         this.isSubmitting.set(false);
       }
@@ -83,7 +83,7 @@ export class CheckoutComponent implements OnInit {
       this.markFormGroupTouched();
     }
   }
-// ... (markFormGroupTouched method is the same)
+
   private markFormGroupTouched() {
     Object.keys(this.checkoutForm.controls).forEach(key => {
       this.checkoutForm.get(key)?.markAsTouched();

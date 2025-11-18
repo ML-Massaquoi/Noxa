@@ -38,13 +38,15 @@ export class CartService {
     }
   }
 
-  removeItem(itemId: string) {
+  // Changed itemId: string to itemId: number
+  removeItem(itemId: number) {
     this.items.update(current => 
       current.filter(cartItem => cartItem.foodItem.id !== itemId)
     );
   }
 
-  updateQuantity(itemId: string, quantity: number) {
+  // Changed itemId: string to itemId: number
+  updateQuantity(itemId: number, quantity: number) {
     if (quantity <= 0) {
       this.removeItem(itemId);
       return;

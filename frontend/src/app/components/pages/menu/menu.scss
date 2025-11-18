@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-50">
+  
+  <!-- Header Section (Sticky) -->
+  <header class="sticky top-0 bg-white shadow-sm z-10">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-900">Today's Menu</h1>
+      <!-- Optional: Link to Admin Dashboard -->
+      <button [routerLink]="['/admin-dashboard']" class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+        Admin
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-4xl mx-auto px-4 pb-32 pt-8"> <!-- pb-32 to prevent content hiding behind the sticky footer -->
+
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-24">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600 border-solid"></div>
+      </div>
+    }
+
+    @if (!isLoading()) {
+      <!-- Uses a 3-column grid on medium screens for a tighter, modern layout -->
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        @for (item of foodItems(); track item.id) {
+          <app-food-card 
+            [foodItem]="item" 
+            (addToCart)="addToCart($event)">
+          </app-food-card>
+        }
+      </div>
+    }
+  </main>
+
+  <!-- Sticky Footer/Cart Summary -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 z-20">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <span class="text-lg font-semibold text-gray-800">
+        {{ cartService.itemCount() }} items | ${{ cartService.totalPrice() }}
+      </span>
+      <button 
+        [routerLink]="['/checkout']"
+        [disabled]="cartService.itemCount() === 0"
+        class="bg-green-600 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-150 ease-in-out transform hover:scale-105">
+        Checkout
+      </button>
+    </div>
+  </footer>
+
+</div>

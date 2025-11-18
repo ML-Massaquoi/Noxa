@@ -61,25 +61,23 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  async updateOrderStatus(orderId: string, status: OrderStatus) {
+  async updateOrderStatus(orderId: number, status: OrderStatus) {
     try {
-      // FIX 2: Add type assertion or use lastValueFrom
       await lastValueFrom(this.apiService.updateOrderStatus(orderId, status));
       await this.loadOrders();
     } catch (error) {
       console.error('Error updating order status:', error);
     }
   }
-// ... (getStatusColor method is the same)
+
   getStatusColor(status: OrderStatus): string {
     const colors = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800',
-      completed: 'bg-blue-100 text-blue-800',
-      preparing: 'bg-purple-100 text-purple-800',
-      ready: 'bg-indigo-100 text-indigo-800',
-      delivered: 'bg-gray-100 text-gray-800'
+      PENDING: 'bg-yellow-100 text-yellow-800',
+      APPROVED: 'bg-green-100 text-green-800',
+      REJECTED: 'bg-red-100 text-red-800',
+      DELIVERED: 'bg-gray-100 text-gray-800',
+      PREPARING: 'bg-purple-100 text-purple-800',
+      READY: 'bg-indigo-100 text-indigo-800'
     };
     return colors[status];
   }

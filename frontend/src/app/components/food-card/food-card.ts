@@ -6,12 +6,13 @@ import { FoodItem } from '../../models/food-item.model';
   selector: 'app-food-card',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './food-card.html'
+  templateUrl: './food-card.html' // Links to the HTML above
 })
 export class FoodCardComponent {
   @Input() foodItem!: FoodItem;
   @Output() addToCart = new EventEmitter<FoodItem>();
 
+  // This is the function the HTML above calls
   onAddToCart() {
     this.addToCart.emit(this.foodItem);
   }

@@ -24,13 +24,13 @@
 
     <div class="flex space-x-4 mb-6 overflow-x-auto pb-2">
       <button
-        *ngFor="let status of ['all', 'pending', 'approved', 'rejected']"
+        *ngFor="let status of ['all', 'PENDING', 'APPROVED', 'REJECTED']"
         (click)="onStatusChange( $any(status) )"
         [class]="selectedStatus() === status ? 
           'bg-green-600 text-white px-4 py-2 rounded-lg font-semibold whitespace-nowrap' : 
           'bg-white text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 whitespace-nowrap'"
       >
-        {{ status === 'all' ? 'All' : (status === 'pending' ? 'Pending' : status === 'approved' ? 'Approved' : 'Rejected') }}
+        {{ status === 'all' ? 'All' : (status === 'PENDING' ? 'Pending' : status === 'APPROVED' ? 'Approved' : 'Rejected') }}
       </button>
     </div>
 
@@ -46,20 +46,16 @@
               <div class="flex justify-between items-start mb-4">
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900">
-                    <!-- Added the indexer [0] to access the first item in the array -->
-                    {{ order.items![0].foodItem.name }}
-                    @if (order.items.length > 1) {
-                      <span class="text-gray-500">+{{ order.items.length - 1 }} more</span>
-                    }
+                    {{ order.customerName }}
                   </h3>
-                  <p class="text-gray-600">{{ order.customerInfo.fullName }}</p>
+                  <p class="text-gray-600">{{ order.address }}</p>
+                  <p class="text-gray-600">{{ order.phone }}</p>
                   <span class="inline-block px-2 py-1 rounded-full text-xs font-semibold {{ getStatusColor(order.status) }}">
-                    {{ order.status === 'pending' ? 'Pending' : order.status === 'approved' ? 'Approved' : order.status === 'rejected' ? 'Rejected' : order.status }}
+                    {{ order.status }}
                   </span>
                 </div>
                 <div class="text-right">
-                  <p class="text-gray-500 text-sm">{{ order.createdAt | date:'MMM d, h:mm a' }}</p>
-                  <p class="text-lg font-semibold text-gray-900">${{ order.total }}</p>
+                  <p class="text-lg font-semibold text-gray-900">NLE {{ order.totalPrice | number:'1.0-0' }}</p>
                 </div>
               </div>
 
@@ -68,16 +64,16 @@
                   View Details
                 </button>
                 
-                @if (order.status === 'pending') {
+                @if (order.status === 'PENDING') {
                   <div class="flex space-x-2">
                     <button
-                      (click)="updateOrderStatus(order.id, 'rejected')"
+                      (click)="updateOrderStatus(order.id, 'REJECTED')"
                       class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
                     >
                       Reject
                     </button>
                     <button
-                      (click)="updateOrderStatus(order.id, 'approved')"
+                      (click)="updateOrderStatus(order.id, 'APPROVED')"
                       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                     >
                       Approve
