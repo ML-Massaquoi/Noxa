@@ -1,74 +1,61 @@
 package com.noxa.backend.service;
 
-import com.noxa.backend.dto.request.OrderCreateRequest;
-//import com.noxa.backend.service.*;
-import com.noxa.backend.entity.*;
+import com.noxa.backend.dto.request.OrderRequest;
+import com.noxa.backend.entity.Order;
+import com.noxa.backend.entity.OrderItem;
+import com.noxa.backend.entity.MenuItem;
+import com.noxa.backend.entity.OrderStatus;
+import com.noxa.backend.repository.MenuItemRepository;
 import com.noxa.backend.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
 
-    @Autowired private OrderRepository orderRepository;
-    @Autowired private MenuService menuService;
-    @Autowired private EmailService emailService;
+    @Autowired
+    private OrderRepository orderRepository;
 
-    @Transactional
-    public Order createOrder(OrderCreateRequest req, User user) {
+    @Autowired
+    private MenuItemRepository menuItemRepository;
+
+    public Order createOrder(OrderRequest orderRequest) {
         Order order = new Order();
-        order.setOrderNumber("NOXA-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
-        order.setUser(user);
-        order.setStreet(req.getStreet());
-        order.setAptSuite(req.getAptSuite());
-        order.setCity(req.getCity());
-        order.setZip(req.getZip());
-        order.setSpecialInstructions(req.getSpecialInstructions());
+        order.setCustomerName(orderRequest.getCustomerName());
+        order.setAddress(orderRequest.getAddress());
+        order.setPhone(orderRequest.getPhone());
+        order.setStatus(OrderStatus.PENDING);
 
-        double total = 0;
-        for (var itemReq : req.getItems()) {
-            MenuItem menuItem = menuService.getById(itemReq.getMenuItemId());
-            if (menuItem == null) {
-                throw new RuntimeException("Menu item not found with id: " + itemReq.getMenuItemId());
-            }
+        List<OrderItem> orderItems = orderRequest.getItems().stream().map(itemRequest -> {
+            MenuItem menuItem = menuItemRepository.findById(itemRequest.getMenuItemId())
+                    .orElseThrow(() -> new RuntimeException("Menu item not found with id: " + itemRequest.getMenuItemId()));
             OrderItem orderItem = new OrderItem();
             orderItem.setMenuItem(menuItem);
-            orderItem.setQuantity(itemReq.getQuantity());
-            orderItem.setUnitPrice(menuItem.getPrice());
-            orderItem.setOrder(order);
-            order.getItems().add(orderItem);
-            total += menuItem.getPrice() * itemReq.getQuantity();
-        }
-        order.setTotal(total);
+            orderItem.setQuantity(itemRequest.getQuantity());
+            return orderItem;
+        }).collect(Collectors.toList());
 
-        Order saved = orderRepository.save(order);
-        emailService.sendConfirmation(saved);
-        return saved;
+        order.setItems(orderItems);
+
+        double totalPrice = orderItems.stream()
+                .mapToDouble(item -> item.getMenuItem().getPrice() * item.getQuantity())
+                .sum();
+        order.setTotalPrice(totalPrice);
+
+        return orderRepository.save(order);
+    }
+    
+    public Order updateOrderStatus(Long orderId, OrderStatus status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+        order.setStatus(status);
+        return orderRepository.save(order);
     }
 
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
-    }
-
-    public List<Order> getPending() {
-        return orderRepository.findPendingForAdmin();
-    }
-
-    @Transactional
-    public void approve(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow();
-        order.setStatus(OrderStatus.APPROVED);
-        orderRepository.save(order);
-    }
-
-    @Transactional
-    public void reject(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow();
-        order.setStatus(OrderStatus.REJECTED);
-        orderRepository.save(order);
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 }
